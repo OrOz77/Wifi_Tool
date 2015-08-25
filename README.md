@@ -1,6 +1,6 @@
 # Wifi_Tool
 
-This Wifi tool will be my second published Android App. It is still being developed, planned to relase by Octover 2015. There are 3 main features.
+This Wifi tool will be my second published Android App. It is still being developed, planned to release by October 2015. There are 3 main features.
 
 1) On rooted Android devices, display wpa_supplicant.conf file that is stored internally on the screen. This file shows all previously connected wifi networks and passwords. The user will be able to easily share passwords from here for whatever reasons.
 
