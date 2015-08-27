@@ -1,5 +1,8 @@
 package com.or_oz.ultimatewifitool;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.or_oz.ultimatewifitool.api.passwdAPI;
 import com.or_oz.ultimatewifitool.model.passwdModel;
@@ -30,6 +34,8 @@ public class PasswdFragment extends android.support.v4.app.Fragment {
     TextView passwdResultTextView;
     int length = 12;
     DiscreteSeekBar mDiscreteSeekBar;
+    ClipboardManager mClip;
+    ClipData clipData;
 
     //factory method to create new instance of fragment
     public static PasswdFragment newInstance(String param1, String param2) {
@@ -55,12 +61,23 @@ public class PasswdFragment extends android.support.v4.app.Fragment {
 
         callAPI();
 
-
+        mClip = (ClipboardManager)getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
 
         generatePasswdButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               callAPI();
+                callAPI();
+            }
+        });
+
+        passwdResultTextView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                String passwordGenerated = passwdResultTextView.getText().toString();
+                clipData = ClipData.newPlainText("",passwordGenerated);
+                Toast.makeText(getActivity(), passwordGenerated + " copied to clipboard", Toast.LENGTH_SHORT).show();
+
+                return false;
             }
         });
 
