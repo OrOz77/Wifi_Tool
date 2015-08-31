@@ -23,6 +23,7 @@
         android:id="@+id/passwdResultTextView"
         android:layout_above="@+id/generatePasswdButton"
         android:layout_centerHorizontal="true"
+        android:textSize="@dimen/abc_text_size_large_material"
         android:layout_marginBottom="56dp"/>
 
     <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
@@ -48,5 +49,16 @@
         android:layout_below="@+id/generatePasswdButton"
         android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/passwdMeCredits"
+        android:id="@+id/credits"
+        android:textColor="@color/material_blue_grey_800"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>

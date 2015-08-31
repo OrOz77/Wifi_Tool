@@ -1,5 +1,6 @@
 package com.or_oz.ultimatewifitool;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -28,7 +29,7 @@ import retrofit.client.Response;
 //Fragment to generate random secure passwords using passwd.me API
 public class PasswdFragment extends android.support.v4.app.Fragment {
 
-    private OnFragmentInteractionListener mListener;
+    OnPasswdFragmentInteractionListener mListener;
     String API = "https://passwd.me";
     Button generatePasswdButton;
     TextView passwdResultTextView;
@@ -61,7 +62,6 @@ public class PasswdFragment extends android.support.v4.app.Fragment {
 
         callAPI();
 
-        mClip = (ClipboardManager)getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
 
         generatePasswdButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,8 +74,7 @@ public class PasswdFragment extends android.support.v4.app.Fragment {
             @Override
             public boolean onLongClick(View v) {
                 String passwordGenerated = passwdResultTextView.getText().toString();
-                clipData = ClipData.newPlainText("",passwordGenerated);
-                Toast.makeText(getActivity(), passwordGenerated + " copied to clipboard", Toast.LENGTH_SHORT).show();
+                mListener.copyToClip(passwordGenerated);
 
                 return false;
             }
@@ -113,6 +112,19 @@ public class PasswdFragment extends android.support.v4.app.Fragment {
         });
 
     }
+    @Override
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
+
+        try{
+            mListener = (OnPasswdFragmentInteractionListener)activity;
+            Log.i("passwd", "callback init");
+        } catch (ClassCastException e){
+            throw new ClassCastException(activity.toString() +
+                    " must implement interface");
+        }
+    }
+
 
     @Override
     public void onDetach() {
@@ -121,9 +133,8 @@ public class PasswdFragment extends android.support.v4.app.Fragment {
     }
 
  //interface to communicate with host activity
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+    public interface OnPasswdFragmentInteractionListener {
+        public void copyToClip(String snip);
     }
 
 }

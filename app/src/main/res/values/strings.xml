@@ -4,10 +4,11 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-<!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="passwdResult">Press the button to generate a secure password</string>
     <string name="generatePasswd">Generate New Password</string>
     <string name="generateFail">Something went wrong! Make sure you have an active internet connect to ping the online generator</string>
-    <string name="aboveSeekerText">Slide the length of password desired</string>
+    <string name="aboveSeekerText">Slide to set length of password desired</string>
+    <string name="passwdMeCredits">Generated securely using passwd.me</string>
+    <string name="currentWifi">Current Wifi Network: </string>
 </resources>
