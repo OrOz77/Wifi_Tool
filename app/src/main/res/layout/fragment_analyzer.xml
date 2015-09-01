@@ -10,6 +10,38 @@
         android:text="@string/currentWifi"
         android:id="@+id/currentNetwork"
         android:layout_gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/refreshButton"
+        android:id="@+id/refreshButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/wifi_strength"
+        android:id="@+id/wifiStrengthDBM"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_toLeftOf="@+id/refreshButton"
+        android:layout_toStartOf="@+id/refreshButton"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/wifi_strength"
+        android:id="@+id/wifiStrengthLEVEL"
+        android:layout_below="@+id/wifiStrengthDBM"
+        android:layout_toRightOf="@+id/currentNetwork"
+        android:layout_toEndOf="@+id/currentNetwork"
+        android:layout_marginTop="45dp"/>
 </RelativeLayout>

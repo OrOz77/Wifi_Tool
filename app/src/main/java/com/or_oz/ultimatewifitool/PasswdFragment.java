@@ -100,12 +100,14 @@ public class PasswdFragment extends android.support.v4.app.Fragment {
             public void success(passwdModel passwdModel, Response response) {
                 //setting password into textview
                 passwdResultTextView.setText(passwdModel.getPassword());
+                passwdResultTextView.setTextColor(Color.GRAY);
             }
 
             @Override
             public void failure(RetrofitError error) {
                 passwdResultTextView.setText
                         (getResources().getText(R.string.generateFail));
+                passwdResultTextView.setTextColor(Color.RED);
                 Log.i("retrofailURL", error.getUrl());
                 Log.i("retrofail", error.toString());
             }
