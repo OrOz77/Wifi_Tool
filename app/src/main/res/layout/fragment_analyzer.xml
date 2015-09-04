@@ -8,9 +8,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/currentWifi"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/currentNetwork"
         android:layout_gravity="center_horizontal"
-        android:layout_alignParentTop="true"
+        android:layout_marginTop="115dp"
+        android:layout_below="@+id/wifiStrengthDBM"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
 
@@ -24,15 +26,20 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/wifi_strength"
-        android:id="@+id/wifiStrengthDBM"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/refreshButton"
-        android:layout_toStartOf="@+id/refreshButton"/>
+    <org.eazegraph.lib.charts.ValueLineChart
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cubiclinechart"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:egUseCubic="true"
+        app:egUseOverlapFill="true"
+        app:egCurveSmoothness="0.4"
+        app:egIndicatorLineColor="#607D8B"
+        app:egLegendHeight="40dp"
+        app:egShowStandardValue="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -40,8 +47,17 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/wifi_strength"
         android:id="@+id/wifiStrengthLEVEL"
-        android:layout_below="@+id/wifiStrengthDBM"
-        android:layout_toRightOf="@+id/currentNetwork"
-        android:layout_toEndOf="@+id/currentNetwork"
-        android:layout_marginTop="45dp"/>
+        android:layout_above="@+id/cubiclinechart"
+        android:layout_alignRight="@+id/refreshButton"
+        android:layout_alignEnd="@+id/refreshButton"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/wifi_strength"
+        android:id="@+id/wifiStrengthDBM"
+        android:layout_below="@+id/refreshButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 </RelativeLayout>

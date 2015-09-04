@@ -25,8 +25,7 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
 //TODO figure out why copy isnt going to clipboard
-//TODO fix frag3 updating current network
-//TODO add wifi analyzer scale
+//TODO About
 //TODO frag1
 //Main activity hosting viewpager with the different fragments
 public class HostActivity extends AppCompatActivity implements PasswdFragment.OnPasswdFragmentInteractionListener{

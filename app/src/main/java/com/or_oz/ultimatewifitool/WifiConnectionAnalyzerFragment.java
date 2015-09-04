@@ -4,18 +4,28 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import org.eazegraph.lib.charts.ValueLineChart;
+import org.eazegraph.lib.models.LegendModel;
+import org.eazegraph.lib.models.ValueLinePoint;
+import org.eazegraph.lib.models.ValueLineSeries;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by oroz7_000 on 8/25/2015.
@@ -25,6 +35,11 @@ public class WifiConnectionAnalyzerFragment extends Fragment {
 
     Button refreshButton;
 
+    Time today;
+
+    ValueLineSeries series;
+    ValueLineChart mCubicValueLineChart;
+
     String currentNetwork = "N/A";
     TextView currentNetTV;
     TextView wifiStrengthDBMTV;
@@ -33,6 +48,8 @@ public class WifiConnectionAnalyzerFragment extends Fragment {
 
     int wifiStrengthDBM;
     int wifiStrengthLEVEL;
+    List<Integer> wifiLevelList = new ArrayList<>();
+    String currentTime;
 
     //factory method to create new instance of fragment
     public static WifiConnectionAnalyzerFragment newInstance(String param1, String param2) {
@@ -53,9 +70,9 @@ public class WifiConnectionAnalyzerFragment extends Fragment {
         currentNetTV = (TextView)v.findViewById(R.id.currentNetwork);
         wifiStrengthDBMTV = (TextView)v.findViewById(R.id.wifiStrengthDBM);
         wifiStrengthLEVELTV = (TextView)v.findViewById(R.id.wifiStrengthLEVEL);
+        mCubicValueLineChart = (ValueLineChart)v.findViewById(R.id.cubiclinechart);
 
         refreshButton = (Button)v.findViewById(R.id.refreshButton);
-
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,8 +80,10 @@ public class WifiConnectionAnalyzerFragment extends Fragment {
             }
         });
 
-
+        today = new Time(Time.getCurrentTimezone());
         calcWifiStrength();
+        updateChart();
+
 
         return v;
     }
@@ -72,18 +91,44 @@ public class WifiConnectionAnalyzerFragment extends Fragment {
     private void calcWifiStrength() {
         WifiManager wifiManager = (WifiManager)getActivity().getSystemService(Context.WIFI_SERVICE);
         wifiStrengthDBM = wifiManager.getConnectionInfo().getRssi();
-        wifiStrengthDBMTV.setText("" + wifiStrengthDBM);
+        wifiStrengthDBMTV.setText("Strength: " + wifiStrengthDBM + "dBm \n" +
+                "\tCloser to 0 is better");
 
         wifiStrengthLEVEL = WifiManager.calculateSignalLevel(wifiStrengthDBM,5);
+        wifiLevelList.add(wifiStrengthLEVEL);
         wifiStrengthLEVELTV.setText("" + wifiStrengthLEVEL);
 
     }
 
     private void refreshButton() {
         currentNetwork = getCurrentNetwork();
+        if(currentNetwork.equals("<unknown ssid>")){
+            currentNetwork = "N/A";
+        }
         currentNetTV.setText(getResources().getString(R.string.currentWifi) + currentNetwork);
 
         calcWifiStrength();
+
+        updateChart();
+    }
+
+    private void updateChart(){
+        mCubicValueLineChart.clearChart();
+        today.setToNow();
+        currentTime = today.format("%k:%M:%S");
+        Log.i("currentime", currentTime);
+
+        series = new ValueLineSeries();
+        series.setColor(getResources().getColor(R.color.accent));
+
+        for(int i = 0; i < wifiLevelList.size(); i++){
+            series.addPoint(new ValueLinePoint(wifiLevelList.get(i)));
+
+        }
+        mCubicValueLineChart.addSeries(series);
+        mCubicValueLineChart.constrainView();
+
+        mCubicValueLineChart.startAnimation();
     }
 
     private String getCurrentNetwork() {
@@ -118,8 +163,7 @@ public class WifiConnectionAnalyzerFragment extends Fragment {
             @Override
             public void onReceive(Context context, Intent intent) {
                 Log.i("wifianalyze", "state changed " );
-                currentNetwork = getCurrentNetwork();
-                currentNetTV.setText(getResources().getString(R.string.currentWifi) + currentNetwork);
+                 refreshButton();
             }
         };
 
