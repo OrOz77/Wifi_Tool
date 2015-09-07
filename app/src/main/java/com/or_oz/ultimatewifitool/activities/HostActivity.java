@@ -9,14 +9,19 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+import com.or_oz.ultimatewifitool.AnalyticsApplication;
 import com.or_oz.ultimatewifitool.PasswdFragment;
 import com.or_oz.ultimatewifitool.R;
 import com.or_oz.ultimatewifitool.WifiConnectionAnalyzerFragment;
@@ -27,13 +32,18 @@ public class HostActivity extends AppCompatActivity implements PasswdFragment.On
 
     ClipboardManager mClip;
     ClipData clipData;
-
+private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
         //adding frsgments to viewpager
         //recover fragment coming soon
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
@@ -95,5 +105,14 @@ public class HostActivity extends AppCompatActivity implements PasswdFragment.On
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.i("wifi", "Setting screen name: " + "Host Activity");
+        mTracker.setScreenName("Image~" + "Host Activity");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 }

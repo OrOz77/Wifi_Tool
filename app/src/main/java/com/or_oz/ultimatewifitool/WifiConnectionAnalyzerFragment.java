@@ -95,7 +95,7 @@ public class WifiConnectionAnalyzerFragment extends Fragment {
         //use dBm value to display in range 0-4 for easier interpretation
         wifiStrengthLEVEL = WifiManager.calculateSignalLevel(wifiStrengthDBM,5);
         wifiLevelList.add(wifiStrengthLEVEL);
-        wifiStrengthLEVELTV.setText("" + wifiStrengthLEVEL);
+        wifiStrengthLEVELTV.setText("Scale (0-4): " + wifiStrengthLEVEL);
 
     }
 
