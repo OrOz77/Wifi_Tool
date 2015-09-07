@@ -1,34 +1,29 @@
-package com.or_oz.ultimatewifitool;
+package com.or_oz.ultimatewifitool.activities;
 
-import android.app.ActionBar;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+import com.or_oz.ultimatewifitool.PasswdFragment;
+import com.or_oz.ultimatewifitool.R;
+import com.or_oz.ultimatewifitool.WifiConnectionAnalyzerFragment;
 
-//TODO figure out why copy isnt going to clipboard
-//TODO About
-//TODO frag1
+//TODO recover fragment
 //Main activity hosting viewpager with the different fragments
-public class HostActivity extends AppCompatActivity implements PasswdFragment.OnPasswdFragmentInteractionListener{
+public class HostActivity extends AppCompatActivity implements PasswdFragment.OnPasswdFragmentInteractionListener {
 
     ClipboardManager mClip;
     ClipData clipData;
@@ -39,12 +34,13 @@ public class HostActivity extends AppCompatActivity implements PasswdFragment.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        //adding frsgments to viewpager
+        //recover fragment coming soon
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), FragmentPagerItems.with(this)
-                .add("Recover", RootWifiKeyFragment.class)
-                .add("Generate", PasswdFragment.class)
+               // .add("Recover", RootWifiKeyFragment.class)
                 .add("Analyze", WifiConnectionAnalyzerFragment.class)
+                .add("Generate", PasswdFragment.class)
                 .create());
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -54,13 +50,15 @@ public class HostActivity extends AppCompatActivity implements PasswdFragment.On
         viewPagerTab.setBackgroundColor(getResources().getColor(R.color.primary));
         viewPagerTab.setViewPager(viewPager);
 
+        //clipboard manager for copy feature
         mClip = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
 
     }
 
-
+    //copying string parameter to clipboard and displaying snackbar
     public void copyToClip(String snip){
-        clipData = ClipData.newPlainText("",snip);
+        clipData = ClipData.newPlainText(snip,snip);
+        mClip.setPrimaryClip(clipData);
 
         final View coordinatorLayoutView = findViewById(R.id.snackbarPosition);
 
@@ -69,7 +67,7 @@ public class HostActivity extends AppCompatActivity implements PasswdFragment.On
 
         View snackbarView = snackbar.getView();
         TextView textView = (TextView)snackbarView .findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextColor(Color.WHITE);//change Snackbar's text color;
+        textView.setTextColor(Color.WHITE);
         snackbar.show();
     }
 
@@ -89,6 +87,7 @@ public class HostActivity extends AppCompatActivity implements PasswdFragment.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        //launch about activity
         if (id == R.id.action_about) {
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);

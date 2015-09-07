@@ -24,7 +24,7 @@
         android:layout_above="@+id/generatePasswdButton"
         android:layout_centerHorizontal="true"
         android:textSize="@dimen/abc_text_size_large_material"
-        android:layout_marginBottom="56dp"/>
+        android:layout_marginBottom="78sp"/>
 
     <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
         android:id="@+id/seeker"
@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/aboveSeekerText"
-        android:id="@+id/textView"
+        android:id="@+id/aboveSeekerText"
         android:layout_below="@+id/generatePasswdButton"
         android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"/>
@@ -60,5 +60,15 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Long press on the password to copy to clipboard"
+        android:id="@+id/textView3"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/aboveSeekerText"
+        android:layout_alignEnd="@+id/aboveSeekerText"/>
 
 </RelativeLayout>

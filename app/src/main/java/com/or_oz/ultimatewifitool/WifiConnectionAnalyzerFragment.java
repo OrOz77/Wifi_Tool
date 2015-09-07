@@ -35,8 +35,6 @@ public class WifiConnectionAnalyzerFragment extends Fragment {
 
     Button refreshButton;
 
-    Time today;
-
     ValueLineSeries series;
     ValueLineChart mCubicValueLineChart;
 
@@ -49,7 +47,6 @@ public class WifiConnectionAnalyzerFragment extends Fragment {
     int wifiStrengthDBM;
     int wifiStrengthLEVEL;
     List<Integer> wifiLevelList = new ArrayList<>();
-    String currentTime;
 
     //factory method to create new instance of fragment
     public static WifiConnectionAnalyzerFragment newInstance(String param1, String param2) {
@@ -80,7 +77,7 @@ public class WifiConnectionAnalyzerFragment extends Fragment {
             }
         });
 
-        today = new Time(Time.getCurrentTimezone());
+        //find wifi strength and then update chart on create
         calcWifiStrength();
         updateChart();
 
@@ -88,18 +85,21 @@ public class WifiConnectionAnalyzerFragment extends Fragment {
         return v;
     }
 
+    //uses wifimanager to get connectivity in dBm
     private void calcWifiStrength() {
         WifiManager wifiManager = (WifiManager)getActivity().getSystemService(Context.WIFI_SERVICE);
         wifiStrengthDBM = wifiManager.getConnectionInfo().getRssi();
         wifiStrengthDBMTV.setText("Strength: " + wifiStrengthDBM + "dBm \n" +
                 "\tCloser to 0 is better");
 
+        //use dBm value to display in range 0-4 for easier interpretation
         wifiStrengthLEVEL = WifiManager.calculateSignalLevel(wifiStrengthDBM,5);
         wifiLevelList.add(wifiStrengthLEVEL);
         wifiStrengthLEVELTV.setText("" + wifiStrengthLEVEL);
 
     }
 
+    //gets network name, wifi strength, and then updates chart
     private void refreshButton() {
         currentNetwork = getCurrentNetwork();
         if(currentNetwork.equals("<unknown ssid>")){
@@ -112,15 +112,14 @@ public class WifiConnectionAnalyzerFragment extends Fragment {
         updateChart();
     }
 
+    //clears chart, adds data from array list, starts animation
     private void updateChart(){
         mCubicValueLineChart.clearChart();
-        today.setToNow();
-        currentTime = today.format("%k:%M:%S");
-        Log.i("currentime", currentTime);
 
         series = new ValueLineSeries();
         series.setColor(getResources().getColor(R.color.accent));
 
+        //iterates through previously stored wifi level data so chart remains continuous
         for(int i = 0; i < wifiLevelList.size(); i++){
             series.addPoint(new ValueLinePoint(wifiLevelList.get(i)));
 
@@ -131,6 +130,7 @@ public class WifiConnectionAnalyzerFragment extends Fragment {
         mCubicValueLineChart.startAnimation();
     }
 
+    //sets String currentNetwork to ssid returned from Android Wifi Manager
     private String getCurrentNetwork() {
         ConnectivityManager connManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -151,6 +151,7 @@ public class WifiConnectionAnalyzerFragment extends Fragment {
     public void onResume(){
         super.onResume();
 
+        //broadcast receiver for change in wifi state
         IntentFilter filter = new IntentFilter();
         filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
         filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
@@ -159,6 +160,7 @@ public class WifiConnectionAnalyzerFragment extends Fragment {
         filter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
         filter.addAction(WifiManager.EXTRA_SUPPLICANT_CONNECTED);
 
+        //runs all refresh operations on any change in wifi condition
         wifiReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -167,6 +169,7 @@ public class WifiConnectionAnalyzerFragment extends Fragment {
             }
         };
 
+        //register onResume
         getActivity().registerReceiver(wifiReceiver, filter);
     }
 
@@ -174,6 +177,7 @@ public class WifiConnectionAnalyzerFragment extends Fragment {
     public void onPause(){
         super.onPause();
 
+        //unregister onPause
         getActivity().unregisterReceiver(wifiReceiver);
     }
 

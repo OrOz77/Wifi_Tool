@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="commands">
+        <item>cat /data/misc/wifi/wpa_supplicant.conf</item>
+        <item>cat /data/wifi/bcm_supp.conf</item>
+        <item>cat /data/misc/wifi/wpa.conf</item>
+    </string-array>
+    <string name="sdCard">
+        <item> > /sdcard/wifi.conf</item>
+    </string>
+</resources>

@@ -41,10 +41,6 @@ public class PasswdFragment extends android.support.v4.app.Fragment {
     //factory method to create new instance of fragment
     public static PasswdFragment newInstance(String param1, String param2) {
         PasswdFragment fragment = new PasswdFragment();
-     /*   Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);*/
         return fragment;
     }
 
@@ -60,9 +56,10 @@ public class PasswdFragment extends android.support.v4.app.Fragment {
         passwdResultTextView = (TextView)v.findViewById(R.id.passwdResultTextView);
         mDiscreteSeekBar = (DiscreteSeekBar)v.findViewById(R.id.seeker);
 
+        //to generate password automatically onCreateView
         callAPI();
 
-
+        //click listener to generate new password
         generatePasswdButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,10 +67,12 @@ public class PasswdFragment extends android.support.v4.app.Fragment {
             }
         });
 
+        //long click listener to copy to clipboard
         passwdResultTextView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 String passwordGenerated = passwdResultTextView.getText().toString();
+                //interface callback used with HostActivity
                 mListener.copyToClip(passwordGenerated);
 
                 return false;
@@ -118,6 +117,7 @@ public class PasswdFragment extends android.support.v4.app.Fragment {
     public void onAttach(Activity activity){
         super.onAttach(activity);
 
+        //set interface callback listener
         try{
             mListener = (OnPasswdFragmentInteractionListener)activity;
             Log.i("passwd", "callback init");

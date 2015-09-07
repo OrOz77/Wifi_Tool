@@ -13,4 +13,24 @@
     <string name="currentWifi">Current Wifi Network: </string>
     <string name="refreshButton">Refresh</string>
     <string name="wifi_strength">Strength N/A</string>
+
+
+    <string name="AboutIntro">This app is a multi-purpose wifi tool. It currently
+        supports two features, ANALYZE and GENERATE.</string>
+
+    <string name="AboutAnalyze">The analyze feature reads your wifi signal strength in dBm.
+        The connectivity is also displayed on a range from 0 (disconnected) to 4. The most accurate
+        indicator is the dBm value. Note that the change is not of a linear type. Do not be worried
+        if your phone doesn\'t display a low value. </string>
+
+    <string name="AboutGenerate">The generate feature uses a secure website called "passwd.me"
+        to randomly create a password of chosen length. This does NOT hack a wifi network to extract
+        the password! It\'s purpose is to provide you with a safe password for your own wifi
+        network. Please, do not rate this app poorly because of a misinterpretation!</string>
+
+    <string name="AboutRecover">A third feature, recover, will be released in the next update.
+        It will recover the wifi name, password, and connection type of every network the device has
+        connected to. This will only be supported on ROOTED devices.</string>
+
+    <string name="AboutMore">To learn more and view my progress, visit or-oz.com/wifi</string>
 </resources>
