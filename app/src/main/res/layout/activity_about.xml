@@ -10,13 +10,21 @@
         android:text="@string/app_name"
         android:id="@+id/aboutHeader"
         android:layout_centerHorizontal="true"/>
-    <TextView
+
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/about"
-        android:text="@string/action_about"
+        android:id="@+id/scrollView"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/aboutHeader"/>
+        android:layout_below="@id/aboutHeader">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/about"
+            android:text="@string/action_about"
+         />
+    </ScrollView>
 
 
 </RelativeLayout>
